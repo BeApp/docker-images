@@ -3,7 +3,7 @@ MAINTAINER Damien Villeneuve <d.villeneuve@beapp.fr>
 
 RUN apt-get update && apt-get install -y -qq \
         # Compression
-        libbz2-dev \
+        libbz2-dev zip \
         # Strings / Charset
         libicu-dev libfreetype6-dev libmcrypt-dev \
         # Databases
