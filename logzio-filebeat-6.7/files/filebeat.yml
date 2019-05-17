@@ -1,0 +1,35 @@
+filebeat.config:
+  inputs:
+    path: ${path.config}/prospectors.d/*.yml
+    enabled: true
+    reload.enabled: false
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    enabled: true
+    reload.enabled: false
+
+fields_under_root: true
+fields:
+  token: '${LOGZIO_TOKEN}'
+  project: '${FIELD_PROJECT:}'
+  environment: '${FIELD_ENVIRONMENT:}'
+
+registry_file: /usr/share/filebeat/data/registry
+
+processors:
+  - drop_fields:
+      when:
+        equals:
+          project: ''
+      fields: ['project']
+  - drop_fields:
+      when:
+        equals:
+          environment: ''
+      fields: ['environment']
+
+output:
+  logstash:
+    hosts: ["listener.logz.io:5015"]
+    ssl:
+      certificate_authorities: ['/etc/pki/tls/certs/logzio.crt']
