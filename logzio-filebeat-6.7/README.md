@@ -29,7 +29,6 @@ docker run -d --name=logzio --restart=always \
 _/filebeat/myapp.yml:_
 
 ```
-filebeat.inputs:
 - type: log
   paths:
     - /var/log/nginx/access-api*.log
