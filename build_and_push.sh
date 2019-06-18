@@ -9,6 +9,7 @@ images=(
   php-7.1-fpm-xdebug
   engine-7.1
   logzio-filebeat-6.7
+  circleci-sonar-3.3.0.1492
 )
 
 function build() {
