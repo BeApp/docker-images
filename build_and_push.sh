@@ -2,21 +2,14 @@
 
 # You should login first by using : docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-version=0.1
 image_root_name="beappers"
-images=(
-  php-7.1-fpm
-  php-7.1-fpm-xdebug
-  php-7.2-fpm
-  php-7.3-fpm
-  engine-7.1
-  engine-7.2
-  engine-7.2-xdebug
-  engine-7.3
-  engine-7.3-xdebug
-  logzio-filebeat-6.7
-  circleci-sonar-3.3.0.1492
-)
+image="$1"
+
+if [[ $# -gt 1 ]]; then
+    version=$2
+else
+    version=0.1
+fi
 
 function build() {
   image=$1
@@ -43,7 +36,5 @@ function upload() {
   docker push "$image_root_name/$image:latest"
 }
 
-for image in ${images[@]}; do
-  build "$image" "$version"
-  upload "$image" "$version"
-done
+build "$image" "$version"
+upload "$image" "$version"

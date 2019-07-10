@@ -1,11 +1,38 @@
 version: 2
+
+workflows:
+  version: 2
+  master:
+    jobs:
+      - checkout_and_login
+      - build_and_push:
+          requires: [checkout_and_login]
+
+
 jobs:
- build:
-   machine: true
-   steps:
-     - checkout
-     # start proprietary DB using private Docker image
-     # with credentials stored in the UI
-     - run: |
-         docker login -u $DOCKER_USER -p $DOCKER_PASS
-         ./build_and_push.sh
+  checkout_and_login:
+    machine: true
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - '*'
+
+  build_and_push:
+    machine: true
+    steps:
+      - attach_workspace:
+          at: ./
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: ./build_and_push.sh php-7.1-fpm
+      - run: ./build_and_push.sh php-7.1-fpm-xdebug
+      - run: ./build_and_push.sh php-7.2-fpm
+      - run: ./build_and_push.sh php-7.3-fpm
+      - run: ./build_and_push.sh engine-7.1
+      - run: ./build_and_push.sh engine-7.2
+      - run: ./build_and_push.sh engine-7.2-xdebug
+      - run: ./build_and_push.sh engine-7.3
+      - run: ./build_and_push.sh engine-7.3-xdebug
+      - run: ./build_and_push.sh logzio-filebeat-6.7
+      - run: ./build_and_push.sh circleci-sonar-3.3.0.1492
