@@ -36,3 +36,4 @@ jobs:
       - run: ./build_and_push.sh engine-7.3-xdebug
       - run: ./build_and_push.sh logzio-filebeat-6.7
       - run: ./build_and_push.sh circleci-sonar-3.3.0.1492
+      - run: ./build_and_push.sh circleci-sonar-4.2.0.1873
